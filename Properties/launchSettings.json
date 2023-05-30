@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PlantNanny (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "PlantNanny (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
