@@ -16,14 +16,8 @@ using Windows.UI.Notifications;
 using Windows.Data.Xml.Dom;
 using System.Threading.Tasks;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace PlantNanny
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainWindow : Window
     {
         public MainWindow()
@@ -31,9 +25,42 @@ namespace PlantNanny
             this.InitializeComponent();
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        public void SetReminder_Click(object sender, RoutedEventArgs e)
         {
-            ShowToastNotification("Watering Reminder", "It's time to water your plants.");
+            string time = TimeInput.Text;
+            SetReminder(time);
+        }
+
+        public DispatcherTimer timer;
+
+        public void SetReminder(string time)
+        {
+            string[] timeParts = time.Split(':');
+            int hour = int.Parse(timeParts[0]);
+            int minute = int.Parse(timeParts[1]);
+            
+            DateTime now = DateTime.Now;
+            DateTime nextReminder = new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
+            
+            if (now > nextReminder)
+            {
+                nextReminder = nextReminder.AddDays(1);
+            }
+
+            TimeSpan timeUntilNextReminder = nextReminder - now;
+
+            timer = new DispatcherTimer();
+            timer.Interval = timeUntilNextReminder;
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        public void Timer_Tick(object sender, object e)
+        {
+            timer.Stop();
+            ShowToastNotification("Plant care reminder", "It's time to take care of your plants.");
+            timer.Interval = TimeSpan.FromDays(1);
+            timer.Start();
         }
 
         public void ShowToastNotification(string title, string content)
