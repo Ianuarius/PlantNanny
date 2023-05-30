@@ -15,6 +15,9 @@ using Windows.Foundation.Collections;
 using Windows.UI.Notifications;
 using Windows.Data.Xml.Dom;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 
 namespace PlantNanny
 {
@@ -73,6 +76,15 @@ namespace PlantNanny
 
             ToastNotification toast = new ToastNotification(toastXml);
             ToastNotificationManager.CreateToastNotifier().Show(toast);
+            PlayNotificationSound();
+        }
+
+        public async void PlayNotificationSound()
+        {
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/WAV_Polite.wav"));
+            MediaPlayer player = new MediaPlayer();
+            player.Source = MediaSource.CreateFromStorageFile(file);
+            player.Play();
         }
     }
 }
