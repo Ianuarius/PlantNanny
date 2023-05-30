@@ -8,9 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Vertical">
-        <TextBlock Text="Set Reminder Time" Margin="10"/>
-        <TextBox x:Name="TimeInput" PlaceholderText="HH:mm" Margin="10"/>
-        <Button Content="Set Reminder" Click="SetReminder_Click" Margin="10"/>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Button x:Name="myButton" Content="Water Me!" Click="myButton_Click"></Button>
     </StackPanel>
 </Window>
